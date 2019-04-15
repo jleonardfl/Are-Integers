@@ -20,19 +20,26 @@ int main(int argc, char** argv) {
         y = atoi(argv[2]);
     }
 
+    FILE *fp;
+    fp = fopen("out.csv", "w");
+
+    if(!fp){printf("Could not open file!\n");}
+    else {printf("out.csv opened successfully.\n");}
+
     long double data[x][y];
 
-    _Bool are_integers[x][y];
+    //_Bool are_integers[x][y];
     
     // Populate grids
     for(int i = 1; i <= x; i++){
         for(int j = 1; j <= y; j++){
             float v = pow(i, j);
             data[i-1][j-1]=v;
-            are_integers[i-1][j-1]=(roundf(v)==v);
+            //are_integers[i-1][j-1]=(roundf(v)==v);
         }
     }
 
+    /*
     // Print any non integer x y combinations
     for(int i = 0; i < x; i++){
         for(int j = 0; j < y; j++){
@@ -42,23 +49,28 @@ int main(int argc, char** argv) {
         }
     }
     printf("\n");
+    */
 
     // Print grids
     for(int i = 0; i < x; i++){
         for(int j = 0; j < y; j++){
-            printf("%.3Lg \t", data[i][j]);
+            fprintf(fp, "%.3Lg,", data[i][j]);
         }
-        printf("\n");
+        fprintf(fp, "\n");
     }
-    printf("\n");
+    fprintf(fp, "\n");
 
+    printf("\nSaved to out.csv.\n\n");
+
+    /*
     for(int i = 0; i < x; i++){
         for(int j = 0; j < y; j++){
-            printf("%d \t", are_integers[i][j]);
+            printf("%d, ", are_integers[i][j]);
         }
         printf("\n");
     }
     printf("\n");
+    */
 
     return(0);
 }
