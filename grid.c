@@ -7,10 +7,19 @@
 //given as runtime arguments.  arvg should look like {grid, x, y}
 
 int main(int argc, char** argv) {
-    assert(argc==3);
+    int x = 0;
+    int y = 0;
 
-    int x = atoi(argv[1]);
-    int y = atoi(argv[2]);
+    if(argc!=3){
+        printf("Enter x dimension: ");
+        scanf("%d", &x);
+        printf("Enter y dimension: ");
+        scanf("%d", &y);
+    } else {
+        x = atoi(argv[1]);
+        y = atoi(argv[2]);
+    }
+
     long double data[x][y];
 
     _Bool are_integers[x][y];
