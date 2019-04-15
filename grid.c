@@ -21,12 +21,6 @@ int main(int argc, char** argv) {
         y = atoi(argv[2]);
     }
 
-    FILE *fp;
-    fp = fopen("out.csv", "w");
-
-    if(!fp){printf("Could not open file!\n");}
-    else {printf("out.csv opened successfully.\n");}
-
     mpf_t data[x][y];
 
     _Bool state[x][y];
@@ -58,10 +52,29 @@ int main(int argc, char** argv) {
     */
 
     // Print grids
+    //if binary
+    FILE *fp;
+    fp = fopen("integers.csv", "w");
+
+    if(!fp){printf("Could not open file!\n");}
+    else {printf("out.csv opened successfully.\n");}
+
     for(int i = 0; i < x; i++){
         for(int j = 0; j < y; j++){
             //mpf_out_str(fp, 10, 0, data[i][j]);
             fprintf(fp, "%d, ", state[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+
+    fclose(fp);
+    fp=fopen("values.csv", "w");
+    //if values
+    for(int i = 0; i < x; i++){
+        for(int j = 0; j < y; j++){
+            mpf_out_str(fp, 10, 0, data[i][j]);
+            fprintf(fp, ", ");
         }
         fprintf(fp, "\n");
     }
