@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     // Populate grids
     for(int i = 1; i <= x; i++){
         for(int j = 1; j <= y; j++){
-            float v = pow(i, j);
+            float v = ((pow(i, j)-i)/j);
             data[i-1][j-1]=v;
             //are_integers[i-1][j-1]=(roundf(v)==v);
         }
