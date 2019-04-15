@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
+#include <gmp.h>
 
 //This program generates a grid of values for (x^y - x)/y with boundaries
 //given as runtime arguments.  arvg should look like {grid, x, y}
@@ -26,15 +27,20 @@ int main(int argc, char** argv) {
     if(!fp){printf("Could not open file!\n");}
     else {printf("out.csv opened successfully.\n");}
 
-    long double data[x][y];
+    mpf_t data[x][y];
 
-    //_Bool are_integers[x][y];
+    _Bool state[x][y];
     
     // Populate grids
-    for(int i = 1; i <= x; i++){
-        for(int j = 1; j <= y; j++){
-            float v = ((pow(i, j)-i)/j);
-            data[i-1][j-1]=v;
+    for(int j = 1; j <= x; j++){
+        for(int i = 1; i <= y; i++){
+            mpf_init_set_ui(data[i-1][j-1], i);
+
+            mpf_pow_ui(data[i-1][j-1], data[i-1][j-1], j);
+            mpf_sub_ui(data[i-1][j-1], data[i-1][j-1], i);
+            mpf_div_ui(data[i-1][j-1], data[i-1][j-1], j);
+
+            state[i-1][j-1]=mpf_integer_p(data[i-1][j-1]);
             //are_integers[i-1][j-1]=(roundf(v)==v);
         }
     }
@@ -54,7 +60,8 @@ int main(int argc, char** argv) {
     // Print grids
     for(int i = 0; i < x; i++){
         for(int j = 0; j < y; j++){
-            fprintf(fp, "%.3Lg,", data[i][j]);
+            //mpf_out_str(fp, 10, 0, data[i][j]);
+            fprintf(fp, "%d, ", state[i][j]);
         }
         fprintf(fp, "\n");
     }
